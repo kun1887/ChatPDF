@@ -16,7 +16,7 @@ pages = loader.load_and_split()
 faiss_index = FAISS.from_documents(pages, OpenAIEmbeddings())
 
 # create a retriever
-retriever = faiss_index.as_retriever(search_type="similarity", search_kwargs={"k": 3})
+retriever = faiss_index.as_retriever(search_type="similarity", search_kwargs={"k": 10})
 
 # create a llm
 llm = ChatOpenAI(model="gpt-4o-mini")
