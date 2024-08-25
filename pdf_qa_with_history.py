@@ -19,9 +19,8 @@ faiss_index = FAISS.from_documents(pages, OpenAIEmbeddings())
 retriever = faiss_index.as_retriever(search_type="similarity", search_kwargs={"k": 10})
 llm = ChatOpenAI(model="gpt-4o-mini")
 
-# create a chain with chat history
 
-
+# create a prompt for the contextualize_q_prompt that incorporates a chat history
 contextualize_q_system_prompt = """Given a chat history and the latest user question \
 which might reference context in the chat history, formulate a standalone question \
 which can be understood without the chat history. Do NOT answer the question, \
@@ -41,7 +40,7 @@ history_aware_retriever = create_history_aware_retriever(
     llm, retriever, contextualize_q_prompt
 )
 
-# create a chain for question-answering tasks, with the ability to render latex code in p
+# qa system prompt
 qa_system_prompt = """You are an assistant for question-answering tasks. \
 Use the following pieces of retrieved context to answer the question. \
 If you don't know the answer, just say that you don't know. \
@@ -50,6 +49,7 @@ If you have to answer a question that involves latex code, visualize it in a pla
 
 {context}"""
 
+# qa final prompt
 qa_prompt = ChatPromptTemplate.from_messages(
     [
         ("system", qa_system_prompt),
@@ -58,6 +58,7 @@ qa_prompt = ChatPromptTemplate.from_messages(
     ]
 )
 
+# final chain
 question_answer_chain = create_stuff_documents_chain(llm, qa_prompt)
 rag_chain = create_retrieval_chain(history_aware_retriever, question_answer_chain)
 
