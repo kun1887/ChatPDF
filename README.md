@@ -1,8 +1,13 @@
 # SIMPLE PDF RAG CHATBOT
 
-Two implementations of a simple PDF RAG chatbot using Langchain and gpt-4o-mini, pdf_qa_with_history.py provides a chatbot with history and pdf_qa.py provides a chatbot with memory.
+Two implementations of a simple PDF RAG chatbot using Langchain and gpt-4o-mini,
+- `pdf_qa_with_history.py` provides a chatbot with history
+- `pdf_qa.py` provides a chatbot with memory
+- `chat_with_graph.py` provides a chatbot and generates a dynamic knowledge graph based on the key points of the llm answer to user questions.
 
-- openai api key is required to run the code
+
+
+- Openai api key is required to run the code
 - langchain api key is required to run the code
 
 both keys must be set as environment variables
