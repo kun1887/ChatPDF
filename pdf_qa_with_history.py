@@ -7,10 +7,9 @@ from langchain_core.prompts import ChatPromptTemplate, MessagesPlaceholder
 from langchain.chains import create_retrieval_chain
 from langchain.chains.combine_documents import create_stuff_documents_chain
 from langchain_core.messages import HumanMessage
-from sympy import sympify, init_printing
-from sympy.parsing.latex import parse_latex
-import re
+import os
 
+os.environ["LANGCHAIN_TRACING_V2"] = "true"
 file_path = input("Enter the path to the PDF file: ")
 # create a vector store
 loader = PyPDFLoader(file_path, extract_images=True)
@@ -80,7 +79,6 @@ def chatbot_with_history():
             break
         ai_msg = rag_chain.invoke({"input": user_input, "chat_history": chat_history})
         chat_history.extend([HumanMessage(content=user_input), ai_msg["answer"]])
-        # ai_msg["answer"] = render_math(ai_msg["answer"])
         print("Chatbot: ", end="", flush=True)
         print(ai_msg["answer"])
 
